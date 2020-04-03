@@ -1,75 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React from "react"
+import {
+  BrowserRouter,
+  Switch,
+  Route
+ } from 'react-router-dom'
 
-import Header from './components/Header/Header';
-import NewProduct from './components/Products/NewProduct';
-import ProductList from './components/Products/ProductList';
-import './App.css';
+import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
-function App() {
-  const [loadedProducts, setLoadedProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+// skeleton of the layout
+import Header from "./components/Header"
+import Sidebar from "./components/Sidebar"
+import Copyright from './components/Copyright'
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setIsLoading(true);
-      const response = await fetch('http://localhost:5000/api/getData');
-      const responseData = await response.json();
-      let d = JSON.parse(responseData)
-      console.log(d)
-      setLoadedProducts(d);
-      setIsLoading(false);
-    };
+// routing components
+import Overview from "./containers/Overview"
+import FridgeItems from "./containers/FridgeItems"
+import FridgeCondition from "./containers/FridgeCondition"
+import FridgeUsage from "./containers/FridgeUsage"
 
-    fetchProducts();
-  }, []);
+const NoMatch = ({ location }) => (
+  <h3>
+    No page found for <code>{location.pathname}</code>
+  </h3>
+)
 
-  const addProductHandler = async (productName, productPrice, id) => {
-    console.log("addProductHandler() is called")
-    try {
-      const newProduct = {
-        ACCOUNTNAME: productName,
-        BALANCE: +productPrice, // "+" to convert string to number
-        CHECKINGACCOUNTID: +id
-      };
-      let hasError = false;
-      const response = await fetch('http://localhost:5000/api/postData', {
-        method: 'POST',
-        body: JSON.stringify(newProduct),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+}));
 
-      if (!response.ok) {
-        hasError = true;
-      }
-      const responseData = await response.json();
-
-      if (hasError) {
-        throw new Error(responseData.message);
-      }
-
-      setLoadedProducts(prevProducts => {
-        console.log("setLoadedProducts(): ", prevProducts)
-        return prevProducts.concat({
-          ...newProduct
-        });
-      });
-    } catch (error) {
-      alert(error.message || 'Something went wrong!');
-    }
-  };
-
+export default function App() {
+  const classes = useStyles();
   return (
-    <React.Fragment>
-      <Header />
-      <main>
-        <NewProduct onAddProduct={addProductHandler} />
-        {isLoading && <p className="loader">Loading...</p>}
-        {!isLoading && <ProductList items={loadedProducts} />}
-      </main>
-    </React.Fragment>
-  );
-}
+    <BrowserRouter>
+      <div className={classes.root}>
+        <Header />
+        <Sidebar />
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          <Container maxWidth="lg" className={classes.container}>
+            <Grid container spacing={3}>
 
-export default App;
+                <Switch>
+                  <Route exact path="/" component={Overview} />
+                  <Route exact path="/fridge-items" component={FridgeItems} />
+                  <Route exact path="/fridge-condition" component={FridgeCondition} />
+                  <Route exact path="/fridge-usage" component={FridgeUsage} />
+                  <Route component={NoMatch} />
+                </Switch>
+
+            </Grid>
+            <Box pt={4}>
+              <Copyright />
+            </Box>
+          </Container>
+        </main>
+      </div>
+    </BrowserRouter>
+  )
+}
