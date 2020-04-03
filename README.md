@@ -1,3 +1,15 @@
+# Smart Fridge Repo README
+
+## Important notes on setting up
+1. fork this repo and do pull requests, we can code review the updates together
+2. open issues and have code related communications on github
+
+## React Frontend
+
+`cd web_dashboard` directory, do `yarn install` to init the react app, followed by `yarn start`, go to port 65432 and preview the development.
+
+
+## Main Server REST API
 In addition to all the commands Dr Tan mentioned in the lecture 8, you'll need to run the following:
 <br>
 <br>
