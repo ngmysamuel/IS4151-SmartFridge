@@ -61,3 +61,15 @@ can take snapshots of the fridge and read objects and send to RESTapi
 single personal fridge
 
 can us GPIO with rapsi
+
+- the minimal threshold for accuracy is 0.5, TF official example use 40% (https://github.com/tensorflow/examples/blob/master/lite/examples/object_detection/raspberry_pi/detect_picamera.py)
+- image based command:
+$ python3 TFLite_detection_image.py --modeldir=coco_ssd_mobilenet_v1_1.0_quant_2018_06_29/
+
+use as a funtion call:
+os.getcwd()
+Out[4]: '/home/pi/Documents/tflite1'
+
+from TFLite_detection_image import predict_fridge_snapshot
+
+predict_fridge_snapshot()
