@@ -1,0 +1,176 @@
+swagger: "2.0"
+info:
+  description: "This is the Swagger for Sensor Raspberry Pi
+    Similar to Assignment 2, there will be a rhub.py running in the
+    Rpi that will parse and read the serial / radio messages from the
+    microbit / bosch sensor. Rhub.py will internally update SQLite DB.
+    The cloud will call the GET methods.
+    methods each for
+    TEMPERATURE, HUMIDITY and DOOR_STATUS.
+    3 files backing up the API:
+      sensor_raspi_temperature.py,
+      sensor_raspi_humdity.py,
+      sensor_raspi_door.py.
+    Each method in the file will have the same name as its path. "
+  version: "1.0.0"
+  title: "Swagger Sensor Rpi"
+
+basePath: "/sensor_raspi/api"
+
+paths:
+  /get-current-temperature:
+    get:
+      summary: "Gets current temperature"
+      description: "JSON formatted data from SQLite database on the Rpi (edge)"
+      operationId: "sensor_raspi_temperature.please use snake case for python" # please use snake_case for python
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                temperature:
+                  type: "integer"
+                timeStamp:
+                  type: "string"
+                  example: "someDate"
+
+  /get-all-temperature:
+    get:
+      summary: "Gets all temperature since beginning"
+      description: "JSON formatted data from SQLite database on the Rpi (edge)"
+      operationId: "sensor_raspi_temperature.getAllTemperature"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                temperature:
+                  type: "integer"
+                  format: "int64"
+                  example: 36
+                timeStamp:
+                  type: "string"
+                  example: "someDate"
+
+  /get-temperature-range/{from-date}/{to-date}:
+    get:
+      summary: "Gets within the range specified within the FROM and TO range in the pathParam"
+      description: "JSON formatted data from SQLite database on the Rpi (edge)"
+      operationId: "sensor_raspi_temperature.getTemperatureRange"
+      parameters:
+        - name: "from-date"
+          in: "path"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "integer"
+          format: "string"
+        - name: "to-date"
+          in: "path"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "integer"
+          format: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                temperature:
+                  type: "integer"
+                timeStamp:
+                  type: "string"
+                  example: "someDate"
+
+  /get-current-door-status:
+    get:
+      summary: "Is the door open or close?"
+      description: "Gets current status of door"
+      operationId: "sensor_raspi_door.getCurrentDoorStatus"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                status:
+                  type: "boolean"
+                  example: true
+                timeStamp:
+                  type: "string"
+                  example: "someDate"
+
+  /get-all-door-status:
+    get:
+      summary: "Gets all statuses of door since beginning"
+      description: "The time the door was open and close since beginning"
+      operationId: "sensor_raspi_door.getAllDoorStatus"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                status:
+                  type: "boolean"
+                  example: true
+                timeStamp:
+                  type: "string"
+                  example: "someDate"
+
+  /get-door-status-range/{from-date}/{to-date}:
+    get:
+      summary: "Gets within the range specified within the FROM and TO range in the pathParam"
+      description: "JSON formatted data from SQLite database on the Rpi (edge)"
+      operationId: "sensor_raspi_door.getDoorStatusRange"
+      parameters:
+        - name: "from-date"
+          in: "path"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "integer"
+          format: "string"
+        - name: "to-date"
+          in: "path"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "integer"
+          format: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                status:
+                  type: "boolean"
+                  example: true
+                timeStamp:
+                  type: "string"
+                  example: "someDate"

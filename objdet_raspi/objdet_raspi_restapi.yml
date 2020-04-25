@@ -1,0 +1,101 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our edge server code
+  version: "1.0.0"
+  title: Swagger REST api doc for edge processor
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/edge/api"
+
+# Paths supported by the server application
+paths:
+  /trackers:
+    get:
+      operationId: "objdet_raspi_restapi.get_trackers"
+      tags:
+        - "Edge Table"
+      summary: "Retrieve tracker data stored in database"
+      description: "Retrieve tracker data stored in database"
+      responses:
+        200:
+          description: "Successfully get tracker data"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "number"
+                device_id:
+                  type: "number"
+                device_name:
+                  type: "string"
+                district:
+                  type: "number"
+                temperature:
+                  type: "number"
+                fever:
+                  type: "string"
+                intruder:
+                  type: "string"
+                timestamp:
+                  type: "string"
+
+  /events:
+    get:
+      operationId: "objdet_raspi_restapi.get_events"
+      tags:
+        - "Edge Table"
+      summary: "Retrieve event data stored in database"
+      description: "Retrieve event data stored in database"
+      responses:
+        200:
+          description: "Successfully get event data"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "number"
+                device_id:
+                  type: "number"
+                device_name:
+                  type: "string"
+                district:
+                  type: "number"
+                event:
+                  type: "string"
+                timestamp:
+                  type: "string"
+
+  /deactivate-local-lockdown:
+    get:
+      operationId: "objdet_raspi_restapi.deactivate_local_lockdown"
+      tags:
+        - "Radio Control"
+      description: "deactivate-local-lockdown"
+      responses:
+        200:
+          description: "Successfully deactivate-local-lockdown"
+
+  /activate-global-lockdown:
+    get:
+      operationId: "objdet_raspi_restapi.activate_global_lockdown"
+      tags:
+        - "Radio Control"
+      description: "activate-global-lockdown"
+      responses:
+        200:
+          description: "Successfully activate-global-lockdown"
+
+  /deactivate-global-lockdown:
+    get:
+      operationId: "objdet_raspi_restapi.deactivate_global_lockdown"
+      tags:
+        - "Radio Control"
+      description: "deactivate-global-lockdown"
+      responses:
+        200:
+          description: "Successfully deactivate-global-lockdown"

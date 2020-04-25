@@ -23,6 +23,22 @@ import glob
 from tflite_runtime.interpreter import Interpreter
 
 
+def take_snapshot():
+    """
+    capture a snapshot from the cv2 video capture
+
+    side-effect:
+        save a snapshot.jpg
+    """
+    cap = cv2.VideoCapture(0) # video capture source camera (Here webcam of laptop)
+    ret,frame = cap.read() # return a single frame in variable `frame`
+
+    #cv2.imshow('img1',frame) #display the captured image
+    cv2.imwrite('snapshot.jpg',frame)
+    cv2.destroyAllWindows()
+    cap.release()
+
+
 def predict_fridge_snapshot():
     """
     wrap TFLite obj det script in a function all
