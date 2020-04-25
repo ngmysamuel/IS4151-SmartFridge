@@ -156,4 +156,4 @@ paths:
         - "Image"
       responses:
         '200':           # Response
-          description: OK
+          description: base64 img + item dict

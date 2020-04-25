@@ -1,5 +1,10 @@
 import sqlite3
-from flask import send_file
+from flask import send_file, jsonify
+
+from TFLite_detection_snapshot import take_snapshot, predict_fridge_snapshot
+from collections import Counter
+
+import base64
 
 database_file = 'objdet_raspi_tables.db'
 
@@ -124,8 +129,34 @@ def get_items_range(from_date, to_date):
 
 
 def get_snapshot():
-    return send_file('test1.jpg', mimetype='image/jpeg')
+    take_snapshot(adhoc=True)
+    return send_file('adhoc.jpg', mimetype='image/jpeg')
 
 
 def get_predicted_snapshot():
-    return send_file('test1-pred.jpg', mimetype='image/jpeg')
+    snapshot_items = predict_fridge_snapshot(adhoc=True)
+
+    print("snapshot_items: ", snapshot_items)
+
+    # count the occurance of items
+    items_dict = dict(Counter(snapshot_items))
+
+    # eg snapshot_items:  ['apple', 'apple', 'apple', 'apple', 'apple',
+    # 'apple', 'apple', 'apple', 'apple', 'apple']
+    # items_dict:  {'apple': 10}
+
+    print("items_dict: ", items_dict)
+
+    # encode the predicted img in base64
+    with open('adhoc-pred.jpg', "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    # print(encoded_string)
+
+    response = {}
+
+    response["image"] = encoded_string
+    response["items"] = items_dict
+
+    print("response: ", response)
+
+    return jsonify(response)
