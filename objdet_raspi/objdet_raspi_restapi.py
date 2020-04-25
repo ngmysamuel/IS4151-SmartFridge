@@ -1,18 +1,26 @@
 import sqlite3
-import serial
-from flask import make_response
+from flask import send_file, jsonify
+
+from TFLite_detection_snapshot import take_snapshot, predict_fridge_snapshot
+from collections import Counter
+
+import base64
+
+database_file = 'objdet_raspi_tables.db'
 
 
-def get_trackers():
-    conn = sqlite3.connect('objdet_raspi_tables.db')
+def get_current_items():
+    conn = sqlite3.connect(database_file)
     c = conn.cursor()
     sql = """
         SELECT
             *
         FROM
-            tracker
+            item
+        ORDER BY
+            id DESC
         LIMIT
-            100;
+            1;
     """
     c.execute(sql)
 
@@ -23,13 +31,17 @@ def get_trackers():
     for result in results:
         response.append({
             'id': result[0],
-            'device_id': result[1],
-            'device_name': result[2],
-            'district': result[3],
-            'temperature': result[4],
-            'fever': result[5],
-            'intruder': result[6],
-            'timestamp': result[7],
+            "banana": result[1],
+            "apple": result[2],
+            "sandwich": result[3],
+            "orange": result[4],
+            "broccoli": result[5],
+            "carrot": result[6],
+            "hot_dog": result[7],
+            "pizza": result[8],
+            "donut": result[9],
+            "cake": result[10],
+            'timestamp': result[11],
         })
 
     conn.close()
@@ -37,16 +49,14 @@ def get_trackers():
     return response
 
 
-def get_events():
-    conn = sqlite3.connect('objdet_raspi_tables.db')
+def get_all_items():
+    conn = sqlite3.connect(database_file)
     c = conn.cursor()
     sql = """
         SELECT
             *
         FROM
-            event
-        LIMIT
-            100;
+            item;
     """
     c.execute(sql)
 
@@ -57,11 +67,17 @@ def get_events():
     for result in results:
         response.append({
             'id': result[0],
-            'device_id': result[1],
-            'device_name': result[2],
-            'district': result[3],
-            'event': result[4],
-            'timestamp': result[5],
+            "banana": result[1],
+            "apple": result[2],
+            "sandwich": result[3],
+            "orange": result[4],
+            "broccoli": result[5],
+            "carrot": result[6],
+            "hot_dog": result[7],
+            "pizza": result[8],
+            "donut": result[9],
+            "cake": result[10],
+            'timestamp': result[11],
         })
 
     conn.close()
@@ -69,100 +85,78 @@ def get_events():
     return response
 
 
-def update_event_status_txt(type_event, action):
-    """
-    to control the LED on off three colors
+def get_items_range(from_date, to_date):
+    print(from_date, to_date)
+    conn = sqlite3.connect(database_file)
+    c = conn.cursor()
+    sql = """
+        SELECT
+            *
+        FROM
+            item
+        WHERE
+            timestamp > {0}
+            AND
+            timestamp < {1};
+    """.format(from_date, to_date)
+    c.execute(sql)
 
-    type_event = 1|2|3, 3 stands for global
-    action = 0 | 1
-    # readlines() = 'type1: 0\n', 'type2: 0\n', 'global: 0'
-    """
-    with open('objdet_raspi_event_status.txt', 'r') as reader:
-        event_status = reader.readlines()
-    # edit the file accordingly
-    if type_event == 1:
-        # update 'type1: 0\n'
-        tmp = list(event_status[0])
-        tmp[7] = str(action)
-        event_status[0] = ''.join(tmp)
-    elif type_event == 2:
-        # update 'type2: 0\n'
-        tmp = list(event_status[1])
-        tmp[7] = str(action)
-        event_status[1] = ''.join(tmp)
-    elif type_event == 3:
-        # update 'global: 0'
-        tmp = list(event_status[2])
-        tmp[8] = str(action)
-        event_status[2] = ''.join(tmp)
-    # write to the txt file
-    with open('objdet_raspi_event_status.txt', 'w') as writer:
-        writer.writelines(event_status)
+    print("\nSQL: ", sql)
 
+    results = c.fetchall()
 
-def activate_global_lockdown():
-    print("Edge - activate_global_lockdown")
-    ser = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1)
+    response = []
 
-    def sendCommand(command):
-        command = command + '\n'
-        ser.write(str.encode(command))
+    for result in results:
+        response.append({
+            'id': result[0],
+            "banana": result[1],
+            "apple": result[2],
+            "sandwich": result[3],
+            "orange": result[4],
+            "broccoli": result[5],
+            "carrot": result[6],
+            "hot_dog": result[7],
+            "pizza": result[8],
+            "donut": result[9],
+            "cake": result[10],
+            'timestamp': result[11],
+        })
 
-    def waitResponse():
-        response = ser.readline()
-        response = response.decode('utf-8').strip()
-        return response
+    conn.close()
 
-    commandToTx = 'global=lockdown'
-    sendCommand('cmd:' + commandToTx)
-
-    ser.close()
-
-    # update the objdet_raspi_event_status.txt global event
-    # for LED control
-    update_event_status_txt(3, 1)
-    return make_response("global lockdown activated", 200)
+    return response
 
 
-def deactivate_local_lockdown():
-    print("Edge - activate_global_lockdown")
-    ser = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1)
-
-    def sendCommand(command):
-        command = command + '\n'
-        ser.write(str.encode(command))
-
-    def waitResponse():
-        response = ser.readline()
-        response = response.decode('utf-8').strip()
-        return response
-
-    commandToTx = 'local=no'
-    sendCommand('cmd:' + commandToTx)
-
-    ser.close()
-    return make_response("local lockdown deactivated", 200)
+def get_snapshot():
+    take_snapshot(adhoc=True)
+    return send_file('adhoc.jpg', mimetype='image/jpeg')
 
 
-def deactivate_global_lockdown():
-    print("Edge - activate_global_lockdown")
-    ser = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1)
+def get_predicted_snapshot():
+    snapshot_items = predict_fridge_snapshot(adhoc=True)
 
-    def sendCommand(command):
-        command = command + '\n'
-        ser.write(str.encode(command))
+    print("snapshot_items: ", snapshot_items)
 
-    def waitResponse():
-        response = ser.readline()
-        response = response.decode('utf-8').strip()
-        return response
+    # count the occurance of items
+    items_dict = dict(Counter(snapshot_items))
 
-    commandToTx = 'global=no'
-    sendCommand('cmd:' + commandToTx)
+    # eg snapshot_items:  ['apple', 'apple', 'apple', 'apple', 'apple',
+    # 'apple', 'apple', 'apple', 'apple', 'apple']
+    # items_dict:  {'apple': 10}
 
-    ser.close()
+    print("items_dict: ", items_dict)
 
-    # update the objdet_raspi_event_status.txt global event
-    # for LED control
-    update_event_status_txt(3, 0)
-    return make_response("global lockdown deactivated", 200)
+    # encode the predicted img in base64
+    with open('adhoc-pred.jpg', "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    # print(encoded_string)
+
+    response = {}
+
+    response["image"] = encoded_string
+    response["items"] = items_dict
+
+    print("response: ", response)
+
+    return jsonify(response)
