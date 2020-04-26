@@ -22,7 +22,7 @@ paths:
     get:
       summary: "Gets current temperature"
       description: "JSON formatted data from SQLite database on the Rpi (edge)"
-      operationId: "sensor_raspi_temperature.please use snake case for python" # please use snake_case for python
+      operationId: "sensor_raspi_temperature.get_current_temperature" # please use snake_case for python
       produces:
       - "application/json"
       responses:
@@ -43,7 +43,7 @@ paths:
     get:
       summary: "Gets all temperature since beginning"
       description: "JSON formatted data from SQLite database on the Rpi (edge)"
-      operationId: "sensor_raspi_temperature.getAllTemperature"
+      operationId: "sensor_raspi_temperature.get_all_temperature"
       produces:
       - "application/json"
       responses:
@@ -62,24 +62,22 @@ paths:
                   type: "string"
                   example: "someDate"
 
-  /get-temperature-range/{from-date}/{to-date}:
+  /get-temperature-range:
     get:
       summary: "Gets within the range specified within the FROM and TO range in the pathParam"
       description: "JSON formatted data from SQLite database on the Rpi (edge)"
-      operationId: "sensor_raspi_temperature.getTemperatureRange"
+      operationId: "sensor_raspi_temperature.get_temperature_range"
       parameters:
-        - name: "from-date"
-          in: "path"
+        - name: "from_date"
+          in: "query"
           description: "a dateStamp that can be understood by SQLite"
           required: true
-          type: "integer"
-          format: "string"
-        - name: "to-date"
-          in: "path"
+          type: "string"
+        - name: "to_date"
+          in: "query"
           description: "a dateStamp that can be understood by SQLite"
           required: true
-          type: "integer"
-          format: "string"
+          type: "string"
       produces:
       - "application/json"
       responses:
@@ -96,11 +94,14 @@ paths:
                   type: "string"
                   example: "someDate"
 
+
+
+
   /get-current-door-status:
     get:
       summary: "Is the door open or close?"
       description: "Gets current status of door"
-      operationId: "sensor_raspi_door.getCurrentDoorStatus"
+      operationId: "sensor_raspi_door.get_current_door_status"
       produces:
       - "application/json"
       responses:
@@ -122,7 +123,7 @@ paths:
     get:
       summary: "Gets all statuses of door since beginning"
       description: "The time the door was open and close since beginning"
-      operationId: "sensor_raspi_door.getAllDoorStatus"
+      operationId: "sensor_raspi_door.get_all_door_status"
       produces:
       - "application/json"
       responses:
@@ -140,24 +141,22 @@ paths:
                   type: "string"
                   example: "someDate"
 
-  /get-door-status-range/{from-date}/{to-date}:
+  /get-door-status-range:
     get:
       summary: "Gets within the range specified within the FROM and TO range in the pathParam"
       description: "JSON formatted data from SQLite database on the Rpi (edge)"
-      operationId: "sensor_raspi_door.getDoorStatusRange"
+      operationId: "sensor_raspi_door.get_door_status_range"
       parameters:
-        - name: "from-date"
-          in: "path"
+        - name: "from_date"
+          in: "query"
           description: "a dateStamp that can be understood by SQLite"
           required: true
-          type: "integer"
-          format: "string"
-        - name: "to-date"
-          in: "path"
+          type: "string"
+        - name: "to_date"
+          in: "query"
           description: "a dateStamp that can be understood by SQLite"
           required: true
-          type: "integer"
-          format: "string"
+          type: "string"
       produces:
       - "application/json"
       responses:
@@ -174,3 +173,51 @@ paths:
                 timeStamp:
                   type: "string"
                   example: "someDate"
+
+  /get-times-door-open:
+    get:
+      summary: "Gets the number of times the fridge has been open"
+      description: "Returns the number stauses door_open = 1 for the range of time "
+      operationId: "sensor_raspi_door.get_times_door_open"
+      produces:
+      - "application/json"
+      parameters:
+        - name: "from_date"
+          in: "query"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "string"
+        - name: "to_date"
+          in: "query"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: number
+
+  /get-duration-door-open:
+    get:
+      summary: "Gets the duration the fridge has been open"
+      description: "Returns length of time the door has been open for the range of time. All rows in the table should be in chronological order."
+      operationId: "sensor_raspi_door.get_duration_door_open"
+      produces:
+      - "application/json"
+      parameters:
+        - name: "from_date"
+          in: "query"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "string"
+        - name: "to_date"
+          in: "query"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: number            

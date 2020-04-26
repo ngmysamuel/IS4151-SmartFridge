@@ -15,7 +15,7 @@
     "typeface-roboto": "^0.0.75"
   },
   "scripts": {
-    "start": "PORT=65432 BROWSER=none react-scripts start",
+    "start": "react-scripts start",
     "format": "prettier --write src/**/*.{js,jsx}",
     "build": "react-scripts build",
     "test": "react-scripts test",
