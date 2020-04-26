@@ -35,7 +35,6 @@ const styles = theme => ({
   },
 })
 
-
 class FridgeSnapshot extends React.Component {
   state = {
     oriSnapshotImg: "",
@@ -45,9 +44,7 @@ class FridgeSnapshot extends React.Component {
 
   get_snapshot_combo = async () => {
     try {
-      const res = await axios.get(
-        `${HTTPconfig.gateway}get-snapshot`
-      )
+      const res = await axios.get(`${HTTPconfig.gateway}get-snapshot`)
       // res.data is the object sent back from the server
       console.log("axios res.data: ", res.data)
       console.log("axios full response schema: ", res)
@@ -60,9 +57,7 @@ class FridgeSnapshot extends React.Component {
     }
 
     try {
-      const res = await axios.get(
-        `${HTTPconfig.gateway}get-predicted-snapshot`
-      )
+      const res = await axios.get(`${HTTPconfig.gateway}get-predicted-snapshot`)
       // res.data is the object sent back from the server
       console.log("axios res.data: ", res.data)
       console.log("axios full response schema: ", res)
@@ -104,9 +99,7 @@ class FridgeSnapshot extends React.Component {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <Paper>
-                <Title>
-                  Original Snapshot
-                </Title>
+                <Title>Original Snapshot</Title>
                 <img
                   className={classes.explainImg}
                   src={`data:image/jpeg;base64,${this.state.oriSnapshotImg}`}
@@ -116,9 +109,7 @@ class FridgeSnapshot extends React.Component {
             </Grid>
             <Grid item xs={12} md={6}>
               <Paper>
-                <Title>
-                  Snapshot with Predictions
-                </Title>
+                <Title>Snapshot with Predictions</Title>
                 <img
                   className={classes.explainImg}
                   src={`data:image/jpeg;base64,${this.state.predSnapshotImg}`}
@@ -129,9 +120,7 @@ class FridgeSnapshot extends React.Component {
           </Grid>
 
           <div className={classes.contentWrapper}>
-            <Typography gutterBottom>
-              Predicted Item: Quantity
-            </Typography>
+            <Typography gutterBottom>Predicted Item: Quantity</Typography>
             {Object.keys(this.state.currItems).map(k => (
               <Typography key={k} color="textSecondary" align="left">
                 {k}: {this.state.currItems[k]}

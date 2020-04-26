@@ -4,9 +4,12 @@
   "description": "Web Admin Portal for SmartFridge",
   "private": true,
   "dependencies": {
+    "@date-io/date-fns": "1.x",
     "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/pickers": "^3.2.10",
     "axios": "^0.19.2",
+    "date-fns": "^2.12.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",

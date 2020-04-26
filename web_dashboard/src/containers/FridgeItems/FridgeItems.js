@@ -8,8 +8,11 @@ import { withStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
+import Button from "@material-ui/core/Button"
 
 import ContentBar from "../../components/ContentBar"
+import DateRangePicker from "../../components/DateRangePicker"
+import ItemsTable from "../../components/ItemsTable"
 
 const styles = theme => ({
   contentWrapper: {
@@ -22,6 +25,8 @@ const styles = theme => ({
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
+    marginBottom: 30,
+    width: 1200,
   },
   fixedHeight: {
     maxHeight: 550,
@@ -32,7 +37,6 @@ const styles = theme => ({
   },
 })
 
-
 class FridgeItems extends React.Component {
   state = {
     oriSnapshotImg: "",
@@ -40,45 +44,14 @@ class FridgeItems extends React.Component {
     currItems: {},
   }
 
-  get_snapshot_combo = async () => {
-    try {
-      const res = await axios.get(
-        `${HTTPconfig.gateway}get-snapshot`
-      )
-      // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
-
-      this.setState({
-        oriSnapshotImg: res.data.ori_image,
-      })
-    } catch (err) {
-      console.error(err, "error")
-    }
-
-    try {
-      const res = await axios.get(
-        `${HTTPconfig.gateway}get-predicted-snapshot`
-      )
-      // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
-
-      this.setState({
-        predSnapshotImg: res.data.image,
-        currItems: res.data.items,
-      })
-    } catch (err) {
-      console.error(err, "error")
-    }
-  }
+  get_snapshot_combo = async () => {}
 
   reloadListDS = () => {
     this.get_snapshot_combo()
   }
 
   async componentDidMount() {
-    await this.get_snapshot_combo()
+    // await this.get_snapshot_combo()
   }
 
   componentDidUpdate(prevProps, prevState) {}
@@ -91,53 +64,30 @@ class FridgeItems extends React.Component {
 
     return (
       <>
-        <Grid item xs={12}>
-          <Paper className={clsx(classes.paper, classes.fixedHeight)}>
-            <ContentBar
-              needToList={true}
-              barTitle="Current Items"
-              mainBtnText="Refresh Snapshot"
-              refreshAction={this.reloadListDS}
-            />
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Paper>
-                  <Typography gutterBottom color="textSecondary" align="center">
-                    Original Snapshot
-                  </Typography>
-                  <img
-                    className={classes.explainImg}
-                    src={`data:image/jpeg;base64,${this.state.oriSnapshotImg}`}
-                    alt="oriSnapImg"
-                  />
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Paper>
-                <Typography gutterBottom color="textSecondary" align="center">
-                    Snapshot with Predictions
-                  </Typography>
-                  <img
-                    className={classes.explainImg}
-                    src={`data:image/jpeg;base64,${this.state.predSnapshotImg}`}
-                    alt="predSnapImg"
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
+        <Paper className={clsx(classes.paper, classes.fixedHeight)}>
+          <ContentBar
+            needToList={false}
+            barTitle="Pick Time Range"
+            mainBtnText="Refresh Snapshot"
+            refreshAction={this.reloadListDS}
+          />
+          <DateRangePicker />
+          <Button variant="contained" color="secondary">
+            View Items
+          </Button>
+        </Paper>
 
-            <div className={classes.contentWrapper}>
-              <Typography gutterBottom>
-                Predicted Item: Quantity
-              </Typography>
-              {Object.keys(this.state.currItems).map(k => (
-                <Typography key={k} color="textSecondary" align="left">
-                  {k}: {this.state.currItems[k]}
-                </Typography>
-              ))}
-            </div>
-          </Paper>
-        </Grid>
+        <Paper className={clsx(classes.paper, classes.fixedHeight)}>
+          <ContentBar
+            needToList={true}
+            barTitle="Recent Items"
+            mainBtnText="Refresh Snapshot"
+            refreshAction={this.reloadListDS}
+          />
+          <Grid container spacing={3}>
+            <ItemsTable />
+          </Grid>
+        </Paper>
       </>
     )
   }
