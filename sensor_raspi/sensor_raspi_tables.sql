@@ -18,10 +18,17 @@ SELECT * FROM door;
 
 select * from door where door_open = 1;
 SELECT door_open, timestamp FROM door WHERE timestamp BETWEEN "2020-04-25 20:41:26" AND "2020-04-25 20:43:04" AND door_open = 1;
+INSERT INTO door (door_open, timestamp) VALUES (1, "2020-04-24 12:00:10");
+INSERT INTO door (door_open, timestamp) VALUES (0, "2020-04-24 12:00:45");
+INSERT INTO door (door_open, timestamp) VALUES (1, "2020-04-25 12:00:30");
+INSERT INTO door (door_open, timestamp) VALUES (0, "2020-04-25 12:00:40");
+INSERT INTO door (door_open, timestamp) VALUES (1, "2020-04-25 12:01:30");
+INSERT INTO door (door_open, timestamp) VALUES (0, "2020-04-25 12:02:10");
 INSERT INTO door (door_open, timestamp) VALUES (1, "2020-04-26 12:02:30");
 INSERT INTO door (door_open, timestamp) VALUES (0, "2020-04-26 12:02:45");
 
 DELETE FROM temperature;
+DELETE FROM door;
 
 DROP TABLE temperature;
 
