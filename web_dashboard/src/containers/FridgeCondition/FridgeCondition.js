@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react"
 
-import Typography from '@material-ui/core/Typography';
+import Typography from "@material-ui/core/Typography"
 
 export default function FridgeCondition() {
   return (
@@ -9,5 +9,5 @@ export default function FridgeCondition() {
         Fridge Condition...
       </Typography>
     </>
-  );
+  )
 }
