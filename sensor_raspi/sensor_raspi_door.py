@@ -39,7 +39,7 @@ def get_all_door_status():
     sql = 'SELECT door_open, timestamp FROM door ;'
     c.execute(sql)
     results = c.fetchall()
-    print(results)
+    # print(results)
     for result in results:
         door_statuses.append({"door_open":result[0],"timestamp":result[1]})
     
@@ -85,6 +85,38 @@ def get_times_door_open(from_date, to_date):
     conn.close()
     return len(results)
 
+
+def get_daily_duration_door_open():
+    daily_delta = {}
+
+    door_statuses = get_all_door_status()
+
+    timeDelta = timedelta()
+    current_date = ""
+    start_time = ""
+    end_time = ""
+    format_string = "%Y-%m-%d %H:%M:%S"
+    for stat in door_statuses:
+        print(stat)
+        time_stamp = stat["timestamp"]
+        time_stamp_date = time_stamp[0 : 10]
+        if (current_date != time_stamp_date):
+            daily_delta[current_date] = timeDelta.total_seconds()
+            current_date = time_stamp_date
+            timeDelta = timedelta()
+        if (stat["door_open"] == 1):
+            start_time = stat["timestamp"]
+        if (stat["door_open"] == 0 and start_time != ""):
+            end_time = stat["timestamp"]
+            # print("start: {} and end: {}".format(start_time, end_time))
+            start_time_date = datetime.strptime(start_time, format_string)
+            end_time_date = datetime.strptime(end_time, format_string)
+            delta = end_time_date - start_time_date 
+            timeDelta += delta
+            print(timeDelta)
+    daily_delta[current_date] = timeDelta.total_seconds()
+    del daily_delta[""]
+    return daily_delta
 
 def get_duration_door_open(from_date, to_date):
     print("from_date: ", from_date)
