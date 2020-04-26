@@ -6,7 +6,7 @@ import ReactDOM from "react-dom"
 import { ThemeProvider } from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import "typeface-roboto"
-import theme from './theme';
+import theme from "./theme"
 import App from "./App"
 
 // Load Roboto typeface

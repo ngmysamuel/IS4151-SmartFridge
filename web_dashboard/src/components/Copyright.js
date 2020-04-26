@@ -1,16 +1,13 @@
-import React from 'react';
+import React from "react"
 
-import Typography from '@material-ui/core/Typography';
-
+import Typography from "@material-ui/core/Typography"
 
 export default function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      Team Smart Fridge
-      {' '}
-      {new Date().getFullYear()}
-      {'.'}
+      {"Copyright © "}
+      Team Smart Fridge {new Date().getFullYear()}
+      {"."}
     </Typography>
-  );
+  )
 }
