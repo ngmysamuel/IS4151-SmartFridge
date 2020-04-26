@@ -23,31 +23,53 @@ import glob
 from tflite_runtime.interpreter import Interpreter
 
 
-def take_snapshot():
+def take_snapshot(adhoc=False):
     """
     capture a snapshot from the cv2 video capture
 
+    adhoc is when client-dashboard request a peek
+
     side-effect:
-        save a snapshot.jpg
+        save a snapshot.jpg | adhoc.jpg
     """
     cap = cv2.VideoCapture(0) # video capture source camera (Here webcam of laptop)
     ret,frame = cap.read() # return a single frame in variable `frame`
 
+    if adhoc:
+        file_name = 'adhoc.jpg'
+    else:
+        file_name = 'snapshot.jpg'
     #cv2.imshow('img1',frame) #display the captured image
-    cv2.imwrite('snapshot.jpg',frame)
+    cv2.imwrite(file_name,frame)
     cv2.destroyAllWindows()
     cap.release()
 
 
-def predict_fridge_snapshot():
+def predict_fridge_snapshot(adhoc=False):
     """
     wrap TFLite obj det script in a function all
 
+    adhoc is when client-dashboard request a peek
+
     side-effect:
-        save a snapshot-pred.jpg
+        save a snapshot-pred.jpg | adhoc-pred.jpg
 
     return:
         array of detected object in the 10 to_detect classes
+
+    sample output:
+    ['apple',
+    'apple',
+    'apple',
+    'apple',
+    'apple',
+    'apple',
+    'apple',
+    'apple',
+    'apple',
+    'apple']
+
+    ['orange', 'banana', 'apple']
     """
     # Define and parse input arguments
     #parser = argparse.ArgumentParser()
@@ -75,7 +97,12 @@ def predict_fridge_snapshot():
     #use_TPU = None
 
     # Parse input image name and directory.
-    IM_NAME = "snapshot.jpg"
+    if adhoc:
+        IM_NAME = "adhoc.jpg"
+        to_save = "adhoc-pred.jpg"
+    else:
+        IM_NAME = "snapshot.jpg"
+        to_save = "snapshot-pred.jpg"
     IM_DIR = None
 
     # If both an image AND a folder are specified, throw an error
@@ -222,6 +249,9 @@ def predict_fridge_snapshot():
 
                 label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
                 print("label: ", label)
+                # save the object in the output array
+                det_box_array.append(object_name)
+
                 labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
                 label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
                 cv2.rectangle(image, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
@@ -230,7 +260,7 @@ def predict_fridge_snapshot():
 
         # All the results have been drawn on the image, now display the image
         #cv2.imshow('Object detector', image)
-        cv2.imwrite('snapshot-pred.jpg',image)
+        cv2.imwrite(to_save, image)
 
         # Press any key to continue to next image, or press 'q' to quit
     #    if cv2.waitKey(0) == ord('q'):

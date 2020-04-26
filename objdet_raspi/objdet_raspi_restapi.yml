@@ -1,101 +1,159 @@
 swagger: "2.0"
 info:
-  description: This is the swagger file that goes with our edge server code
+  description: This is the swagger file for raspiberry pi with object detection
   version: "1.0.0"
-  title: Swagger REST api doc for edge processor
+  title: Swagger REST api doc for raspiberry pi with object detection
 consumes:
   - "application/json"
 produces:
   - "application/json"
 
-basePath: "/edge/api"
+basePath: "/objdet_raspi/api"
 
 # Paths supported by the server application
 paths:
-  /trackers:
+  /get-current-items:
     get:
-      operationId: "objdet_raspi_restapi.get_trackers"
+      operationId: "objdet_raspi_restapi.get_current_items"
       tags:
-        - "Edge Table"
-      summary: "Retrieve tracker data stored in database"
-      description: "Retrieve tracker data stored in database"
+        - "Item Table"
+      summary: "Retrieve item data stored in database"
+      description: "Retrieve item data stored in database"
       responses:
         200:
-          description: "Successfully get tracker data"
+          description: "Successfully get item data"
           schema:
             type: "array"
             items:
               properties:
                 id:
                   type: "number"
-                device_id:
+                banana:
                   type: "number"
-                device_name:
-                  type: "string"
-                district:
+                apple:
                   type: "number"
-                temperature:
+                sandwich:
                   type: "number"
-                fever:
-                  type: "string"
-                intruder:
-                  type: "string"
+                orange:
+                  type: "number"
+                broccoli:
+                  type: "number"
+                carrot:
+                  type: "number"
+                hot_dog:
+                  type: "number"
+                pizza:
+                  type: "number"
+                donut:
+                  type: "number"
+                cake:
+                  type: "number"
                 timestamp:
                   type: "string"
 
-  /events:
+  /get-all-items:
     get:
-      operationId: "objdet_raspi_restapi.get_events"
+      operationId: "objdet_raspi_restapi.get_all_items"
       tags:
-        - "Edge Table"
-      summary: "Retrieve event data stored in database"
-      description: "Retrieve event data stored in database"
+        - "Item Table"
+      summary: "Retrieve item data stored in database"
+      description: "Retrieve item data stored in database"
       responses:
         200:
-          description: "Successfully get event data"
+          description: "Successfully get item data"
           schema:
             type: "array"
             items:
               properties:
                 id:
                   type: "number"
-                device_id:
+                banana:
                   type: "number"
-                device_name:
-                  type: "string"
-                district:
+                apple:
                   type: "number"
-                event:
-                  type: "string"
+                sandwich:
+                  type: "number"
+                orange:
+                  type: "number"
+                broccoli:
+                  type: "number"
+                carrot:
+                  type: "number"
+                hot_dog:
+                  type: "number"
+                pizza:
+                  type: "number"
+                donut:
+                  type: "number"
+                cake:
+                  type: "number"
                 timestamp:
                   type: "string"
 
-  /deactivate-local-lockdown:
+  /get-items-range:
     get:
-      operationId: "objdet_raspi_restapi.deactivate_local_lockdown"
+      operationId: "objdet_raspi_restapi.get_items_range"
       tags:
-        - "Radio Control"
-      description: "deactivate-local-lockdown"
+        - "Item Table"
+      summary: "Retrieve item data stored in database"
+      description: "Retrieve item data stored in database"
+      parameters:
+        - name: "from_date"
+          in: "query"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "string"
+        - name: "to_date"
+          in: "query"
+          description: "a dateStamp that can be understood by SQLite"
+          required: true
+          type: "string"
       responses:
         200:
-          description: "Successfully deactivate-local-lockdown"
+          description: "Successfully get item data"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "number"
+                banana:
+                  type: "number"
+                apple:
+                  type: "number"
+                sandwich:
+                  type: "number"
+                orange:
+                  type: "number"
+                broccoli:
+                  type: "number"
+                carrot:
+                  type: "number"
+                hot_dog:
+                  type: "number"
+                pizza:
+                  type: "number"
+                donut:
+                  type: "number"
+                cake:
+                  type: "number"
+                timestamp:
+                  type: "string"
 
-  /activate-global-lockdown:
+  /get-snapshot:
     get:
-      operationId: "objdet_raspi_restapi.activate_global_lockdown"
+      operationId: "objdet_raspi_restapi.get_snapshot"
       tags:
-        - "Radio Control"
-      description: "activate-global-lockdown"
+        - "Image"
       responses:
-        200:
-          description: "Successfully activate-global-lockdown"
+        '200':           # Response
+          description: OK
 
-  /deactivate-global-lockdown:
+  /get-predicted-snapshot:
     get:
-      operationId: "objdet_raspi_restapi.deactivate_global_lockdown"
+      operationId: "objdet_raspi_restapi.get_predicted_snapshot"
       tags:
-        - "Radio Control"
-      description: "deactivate-global-lockdown"
+        - "Image"
       responses:
-        200:
-          description: "Successfully deactivate-global-lockdown"
+        '200':           # Response
+          description: base64 img + item dict
