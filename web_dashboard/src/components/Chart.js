@@ -1,27 +1,34 @@
-import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
-import Title from './Title';
+import React from "react"
+import { useTheme } from "@material-ui/core/styles"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Label,
+  ResponsiveContainer,
+} from "recharts"
+import Title from "./Title"
 
 // replace with our own data
 function createData(time, amount) {
-  return { time, amount };
+  return { time, amount }
 }
 
 const data = [
-  createData('00:00', 12),
-  createData('03:00', 13),
-  createData('06:00', 12),
-  createData('09:00', 13),
-  createData('12:00', 16),
-  createData('15:00', 11),
-  createData('18:00', 15),
-  createData('21:00', 12),
-  createData('24:00', undefined),
-];
+  createData("00:00", 12),
+  createData("03:00", 13),
+  createData("06:00", 12),
+  createData("09:00", 13),
+  createData("12:00", 16),
+  createData("15:00", 11),
+  createData("18:00", 15),
+  createData("21:00", 12),
+  createData("24:00", undefined),
+]
 
 export default function Chart() {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <React.Fragment>
@@ -41,14 +48,19 @@ export default function Chart() {
             <Label
               angle={270}
               position="left"
-              style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
+              style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
             >
               Temperature (Celsius)
             </Label>
           </YAxis>
-          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
+          <Line
+            type="monotone"
+            dataKey="amount"
+            stroke={theme.palette.primary.main}
+            dot={false}
+          />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>
-  );
+  )
 }

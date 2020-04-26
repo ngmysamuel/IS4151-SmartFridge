@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react"
 
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import NotificationsIcon from '@material-ui/icons/Notifications'
+import { makeStyles } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import IconButton from "@material-ui/core/IconButton"
+import Badge from "@material-ui/core/Badge"
+import NotificationsIcon from "@material-ui/icons/Notifications"
 
-const drawerWidth = 240;
+const drawerWidth = 240
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
@@ -21,14 +21,20 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-}));
+}))
 
 export default function Header() {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <AppBar position="absolute" className={classes.appBarShift}>
       <Toolbar className={classes.toolbar}>
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+        <Typography
+          component="h1"
+          variant="h6"
+          color="inherit"
+          noWrap
+          className={classes.title}
+        >
           Smart Fridge
         </Typography>
         <IconButton color="inherit">
@@ -38,5 +44,5 @@ export default function Header() {
         </IconButton>
       </Toolbar>
     </AppBar>
-  );
+  )
 }
