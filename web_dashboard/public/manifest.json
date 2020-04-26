@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Smart Fridge",
+  "name": "Fridge with Object Detection and Sensors Relay",
   "icons": [
     {
       "src": "favicon.ico",

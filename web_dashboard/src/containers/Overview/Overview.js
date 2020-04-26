@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 
+import FridgeSnapshot from "../../containers/FridgeItems/FridgeSnapshot"
 import Chart from "../../components/Chart"
 import UsageOverview from "../../components/UsageOverview"
 import ItemsTable from "../../components/ItemsTable"
@@ -27,6 +28,7 @@ export default function Overview() {
 
   return (
     <>
+      <FridgeSnapshot />
       {/* Chart */}
       <Grid item xs={12} md={8} lg={9}>
         <Paper className={clsx(classes.paper, classes.fixedHeight)}>
