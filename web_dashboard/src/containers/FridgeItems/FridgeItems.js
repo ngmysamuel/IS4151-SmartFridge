@@ -5,7 +5,7 @@ import axios from "axios"
 import HTTPconfig from "../../HTTPconfig"
 
 import { withStyles } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
+// import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
@@ -14,7 +14,8 @@ import { format } from 'date-fns'
 
 import ContentBar from "../../components/ContentBar"
 import DateRangePicker from "../../components/DateRangePicker"
-import ItemsTable from "../../components/ItemsTable"
+// import ItemsTable from "../../components/ItemsTable"
+import ItemsChart from "../../components/ItemsChart"
 
 const styles = theme => ({
   contentWrapper: {
@@ -131,10 +132,10 @@ class FridgeItems extends React.Component {
         <Paper className={clsx(classes.paper)}>
           <ContentBar
             needToList={false}
-            barTitle="Items Table"
+            barTitle="Items Chart"
           />
-          <Grid container spacing={3} style={{ marginTop: 50 }}>
-            <ItemsTable
+          <Grid container spacing={3} style={{ marginTop: 50, paddingBottom:50 }}>
+            <ItemsChart
               rows={this.state.itemRows}
             />
           </Grid>

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import {
   LineChart,
   Line,
@@ -13,78 +13,6 @@ import {
 
 import * as moment from "moment"
 
-const rows = [
-  {
-    "apple": 0,
-    "banana": 0,
-    "broccoli": 0,
-    "cake": 0,
-    "carrot": 0,
-    "donut": 0,
-    "hot_dog": 0,
-    "id": 3,
-    "orange": 0,
-    "pizza": 0,
-    "sandwich": 0,
-    "timestamp": "2020-04-25 06:23:23.528015"
-  },
-  {
-    "apple": 0,
-    "banana": 0,
-    "broccoli": 0,
-    "cake": 0,
-    "carrot": 0,
-    "donut": 0,
-    "hot_dog": 0,
-    "id": 4,
-    "orange": 0,
-    "pizza": 0,
-    "sandwich": 0,
-    "timestamp": "2020-04-25 06:23:54.807057"
-  },
-  {
-    "apple": 0,
-    "banana": 0,
-    "broccoli": 0,
-    "cake": 0,
-    "carrot": 0,
-    "donut": 0,
-    "hot_dog": 0,
-    "id": 5,
-    "orange": 0,
-    "pizza": 0,
-    "sandwich": 0,
-    "timestamp": "2020-04-25 06:24:26.069397"
-  },
-  {
-    "apple": 0,
-    "banana": 0,
-    "broccoli": 0,
-    "cake": 0,
-    "carrot": 0,
-    "donut": 0,
-    "hot_dog": 0,
-    "id": 6,
-    "orange": 0,
-    "pizza": 0,
-    "sandwich": 0,
-    "timestamp": "2020-04-25 06:24:57.345251"
-  },
-  {
-    "apple": 0,
-    "banana": 1,
-    "broccoli": 1,
-    "cake": 0,
-    "carrot": 0,
-    "donut": 0,
-    "hot_dog": 0,
-    "id": 7,
-    "orange": 0,
-    "pizza": 0,
-    "sandwich": 0,
-    "timestamp": "2020-04-25 06:25:28.652665"
-  }
-]
 
 const transformRow = (row) => {
   return {
@@ -103,11 +31,13 @@ const transformRow = (row) => {
   }
 }
 
-const data = rows.map(row => transformRow(row))
 
-
-export default class Example extends PureComponent {
+export default class ItemsChart extends React.Component {
   render() {
+    const { rows } = this.props
+
+    const data = rows.map(row => transformRow(row))
+
     return (
       <ResponsiveContainer width={900} height={300}>
         <LineChart

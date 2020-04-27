@@ -95,13 +95,14 @@ def get_items_range(from_date, to_date):
         FROM
             item
         WHERE
-            timestamp > {0}
+            timestamp > '{0}'
             AND
-            timestamp < {1};
+            timestamp < '{1}';
     """.format(from_date, to_date)
-    c.execute(sql)
 
     print("\nSQL: ", sql)
+
+    c.execute(sql)
 
     results = c.fetchall()
 
@@ -130,7 +131,18 @@ def get_items_range(from_date, to_date):
 
 def get_snapshot():
     take_snapshot(adhoc=True)
-    return send_file('adhoc.jpg', mimetype='image/jpeg')
+    # encode the predicted img in base64
+    with open('adhoc.jpg', "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    # print(encoded_string)
+
+    response = {}
+
+    response["ori_image"] = encoded_string
+
+    # print("response: ", response)
+
+    return jsonify(response)
 
 
 def get_predicted_snapshot():
@@ -157,6 +169,6 @@ def get_predicted_snapshot():
     response["image"] = encoded_string
     response["items"] = items_dict
 
-    print("response: ", response)
+    # print("response: ", response)
 
     return jsonify(response)

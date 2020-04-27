@@ -1,5 +1,5 @@
 import React from "react"
-import Link from "@material-ui/core/Link"
+
 import { makeStyles } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableContainer from '@material-ui/core/TableContainer'
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Orders({ rows }) {
+export default function Orders({ rows, inOverview }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -36,6 +36,9 @@ export default function Orders({ rows }) {
 
   return (
     <React.Fragment>
+      {inOverview &&
+        <Title>Recent Items</Title>
+      }
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
