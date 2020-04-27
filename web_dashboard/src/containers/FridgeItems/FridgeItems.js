@@ -42,7 +42,7 @@ const styles = theme => ({
 class FridgeItems extends React.Component {
   state = {
     // default fromDate is 00:00 AM of today
-    fromDate: format(new Date().setHours(0,0,0,0), 'yyyy MMM dd HH:mm:ss'),
+    fromDate: new Date().setHours(0,0,0,0),
     // toDate must not be later than current time
     toDate: new Date(), //format(new Date(), 'yyyy MMM dd HH:mm:ss'),
     // item table rows
@@ -128,15 +128,15 @@ class FridgeItems extends React.Component {
           </Button>
         </Paper>
 
-        <Paper className={clsx(classes.paper, classes.fixedHeight)}>
+        <Paper className={clsx(classes.paper)}>
           <ContentBar
-            needToList={true}
-            barTitle="Recent Items"
-            mainBtnText="Refresh Snapshot"
-            refreshAction={this.reloadListDS}
+            needToList={false}
+            barTitle="Items Table"
           />
-          <Grid container spacing={3}>
-            <ItemsTable />
+          <Grid container spacing={3} style={{ marginTop: 50 }}>
+            <ItemsTable
+              rows={this.state.itemRows}
+            />
           </Grid>
         </Paper>
       </>

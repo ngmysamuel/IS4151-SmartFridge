@@ -2,67 +2,92 @@ import React from "react"
 import Link from "@material-ui/core/Link"
 import { makeStyles } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
+import TableContainer from '@material-ui/core/TableContainer'
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
+import TablePagination from '@material-ui/core/TablePagination';
+
 import Title from "./Title"
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount }
-}
+import * as moment from "moment"
 
-const rows = [
-  createData(0, "16 Mar, 2020", "Apple", "+2", "Yes", 3),
-  createData(1, "16 Mar, 2020", "Banana", "+2", "Yes", 3),
-  createData(2, "16 Mar, 2020", "Pizza", "+2", "No", 3),
-  createData(3, "16 Mar, 2020", "Orange", "+2", "Yes", 3),
-  createData(4, "16 Mar, 2020", "Hot Dog", "+2", "No", 3),
-]
 
-function preventDefault(event) {
-  event.preventDefault()
-}
-
-const useStyles = makeStyles(theme => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
+const useStyles = makeStyles({
+  container: {
+    maxHeight: 440,
   },
-}))
+});
 
-export default function Orders() {
-  const classes = useStyles()
+export default function Orders({ rows }) {
+  const classes = useStyles();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   return (
     <React.Fragment>
-      <Title>Recent Items</Title>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Transaction</TableCell>
-            <TableCell>Good for Health</TableCell>
-            <TableCell align="right">Balance</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+      <TableContainer className={classes.container}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Timestamp</TableCell>
+              <TableCell>banana</TableCell>
+              <TableCell>apple</TableCell>
+              <TableCell>sandwich</TableCell>
+              <TableCell>orange</TableCell>
+              <TableCell>broccoli</TableCell>
+              <TableCell>carrot</TableCell>
+              <TableCell>hot_dog</TableCell>
+              <TableCell>pizza</TableCell>
+              <TableCell>donut</TableCell>
+              <TableCell>cake</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          See fridge items
-        </Link>
-      </div>
+          </TableHead>
+          <TableBody>
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+              return (
+                <TableRow key={row.id}>
+                  <TableCell>
+                    {row.timestamp
+                      ? moment(row.timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+                      : "-"
+                    }
+                  </TableCell>
+                  <TableCell>{row.banana}</TableCell>
+                  <TableCell>{row.apple}</TableCell>
+                  <TableCell>{row.sandwich}</TableCell>
+                  <TableCell>{row.orange}</TableCell>
+                  <TableCell>{row.broccoli}</TableCell>
+                  <TableCell>{row.carrot}</TableCell>
+                  <TableCell>{row.hot_dog}</TableCell>
+                  <TableCell>{row.pizza}</TableCell>
+                  <TableCell>{row.donut}</TableCell>
+                  <TableCell>{row.cake}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </React.Fragment>
   )
 }
