@@ -10,6 +10,8 @@ import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
 
+import { format } from 'date-fns'
+
 import ContentBar from "../../components/ContentBar"
 import DateRangePicker from "../../components/DateRangePicker"
 import ItemsTable from "../../components/ItemsTable"
@@ -39,9 +41,12 @@ const styles = theme => ({
 
 class FridgeItems extends React.Component {
   state = {
-    oriSnapshotImg: "",
-    predSnapshotImg: "",
-    currItems: {},
+    // default fromDate is 00:00 AM of today
+    fromDate: format(new Date().setHours(0,0,0,0), 'yyyy MMM dd HH:mm:ss'),
+    // toDate must not be later than current time
+    toDate: new Date(), //format(new Date(), 'yyyy MMM dd HH:mm:ss'),
+    // item table rows
+    itemRows: []
   }
 
   get_snapshot_combo = async () => {}
@@ -58,9 +63,46 @@ class FridgeItems extends React.Component {
 
   componentWillUnmount() {}
 
+  handleFromDateChange = date => {
+    this.setState({
+      fromDate: date
+    })
+  }
+
+  handleToDateChange = date => {
+    this.setState({
+      toDate: date
+    })
+  }
+
+  handleCommit = async e => {
+    e.preventDefault();
+
+    const { fromDate, toDate } = this.state
+
+    const strFromDate = format(fromDate, 'yyyy-MM-dd HH:mm:ss')
+    const strToDate = format(toDate, 'yyyy-MM-dd HH:mm:ss')
+
+    try {
+      const res = await axios.get(
+        `${HTTPconfig.gateway}get-items-range?from_date=${strFromDate}&to_date=${strToDate}`
+      )
+      // res.data is the object sent back from the server
+      console.log("axios res.data: ", res.data)
+      console.log("axios full response schema: ", res)
+
+      this.setState({
+        itemRows: res.data,
+      })
+    } catch (err) {
+      console.error(err, "error")
+    }
+  }
+
   render() {
-    console.log(this.state)
     const { classes } = this.props
+
+    console.log("FridgeItems State: ", this.state)
 
     return (
       <>
@@ -71,8 +113,17 @@ class FridgeItems extends React.Component {
             mainBtnText="Refresh Snapshot"
             refreshAction={this.reloadListDS}
           />
-          <DateRangePicker />
-          <Button variant="contained" color="secondary">
+          <DateRangePicker
+            fromDate={this.state.fromDate}
+            toDate={this.state.toDate}
+            handleFromDateChange={this.handleFromDateChange}
+            handleToDateChange={this.handleToDateChange}
+          />
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={this.handleCommit}
+          >
             View Items
           </Button>
         </Paper>

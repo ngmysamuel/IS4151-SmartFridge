@@ -12,15 +12,10 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers"
 
-import { format } from 'date-fns'
 
 class DateRangePicker extends React.Component {
   state = {
     pickTime: false,
-    // default fromDate is 00:00 AM of today
-    fromDate: format(new Date().setHours(0,0,0,0), 'yyyy MMM dd HH:mm:ss'),
-    // toDate must not be later than current time
-    toDate: new Date(),
   }
 
   handleSwitch = name => event => {
@@ -29,34 +24,26 @@ class DateRangePicker extends React.Component {
     });
   }
 
-  handleFromDateChange = date => {
-    this.setState({
-      fromDate: date
-    })
-  }
-
-  handleToDateChange = date => {
-    this.setState({
-      toDate: date
-    })
-  }
-
   render() {
-    console.log("state: ", this.state)
+    const {
+      fromDate,
+      toDate,
+      handleFromDateChange,
+      handleToDateChange
+    } = this.props
 
-    console.log(this.state.toDate.setHours(20))
-  
+    // console.log("DateRangePicker Props: ", this.props)
     return (
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Grid container justify="space-around">
           <Grid item xs={12} md={6}>
             <KeyboardDatePicker
               margin="normal"
-              id="date-picker-dialog"
-              label="Date picker dialog"
+              id="from-date-picker-dialog"
+              label="From Date"
               format="MM/dd/yyyy"
-              value={this.state.fromDate}
-              onChange={this.handleFromDateChange}
+              value={fromDate}
+              onChange={handleFromDateChange}
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
@@ -65,11 +52,11 @@ class DateRangePicker extends React.Component {
           <Grid item xs={12} md={6}>
             <KeyboardDatePicker
               margin="normal"
-              id="date-picker-dialog"
-              label="Date picker dialog"
+              id="to-date-picker-dialog"
+              label="To Date"
               format="MM/dd/yyyy"
-              value={this.state.toDate}
-              onChange={this.handleToDateChange}
+              value={toDate}
+              onChange={handleToDateChange}
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}
@@ -95,10 +82,10 @@ class DateRangePicker extends React.Component {
               <Grid item xs={12} md={6}>
                 <KeyboardTimePicker
                   margin="normal"
-                  id="time-picker"
-                  label="Time picker"
-                  value={this.state.fromDate}
-                  onChange={this.handleFromDateChange}
+                  id="from-time-picker"
+                  label="From Time"
+                  value={fromDate}
+                  onChange={handleFromDateChange}
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
@@ -107,10 +94,10 @@ class DateRangePicker extends React.Component {
               <Grid item xs={12} md={6}>
                 <KeyboardTimePicker
                   margin="normal"
-                  id="time-picker"
-                  label="Time picker"
-                  value={this.state.toDate}
-                  onChange={this.handleToDateChange}
+                  id="to-time-picker"
+                  label="To Time"
+                  value={toDate}
+                  onChange={handleToDateChange}
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
