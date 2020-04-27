@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
+    zIndex: 1101,
   },
   title: {
     flexGrow: 1,

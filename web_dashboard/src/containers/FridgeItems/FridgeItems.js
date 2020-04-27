@@ -5,7 +5,7 @@ import axios from "axios"
 import HTTPconfig from "../../HTTPconfig"
 
 import { withStyles } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
+// import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
@@ -14,7 +14,8 @@ import { format } from 'date-fns'
 
 import ContentBar from "../../components/ContentBar"
 import DateRangePicker from "../../components/DateRangePicker"
-import ItemsTable from "../../components/ItemsTable"
+// import ItemsTable from "../../components/ItemsTable"
+import ItemsChart from "../../components/ItemsChart"
 
 const styles = theme => ({
   contentWrapper: {
@@ -42,7 +43,7 @@ const styles = theme => ({
 class FridgeItems extends React.Component {
   state = {
     // default fromDate is 00:00 AM of today
-    fromDate: format(new Date().setHours(0,0,0,0), 'yyyy MMM dd HH:mm:ss'),
+    fromDate: new Date().setHours(0,0,0,0),
     // toDate must not be later than current time
     toDate: new Date(), //format(new Date(), 'yyyy MMM dd HH:mm:ss'),
     // item table rows
@@ -128,15 +129,15 @@ class FridgeItems extends React.Component {
           </Button>
         </Paper>
 
-        <Paper className={clsx(classes.paper, classes.fixedHeight)}>
+        <Paper className={clsx(classes.paper)}>
           <ContentBar
-            needToList={true}
-            barTitle="Recent Items"
-            mainBtnText="Refresh Snapshot"
-            refreshAction={this.reloadListDS}
+            needToList={false}
+            barTitle="Items Chart"
           />
-          <Grid container spacing={3}>
-            <ItemsTable />
+          <Grid container spacing={3} style={{ marginTop: 50, paddingBottom:50 }}>
+            <ItemsChart
+              rows={this.state.itemRows}
+            />
           </Grid>
         </Paper>
       </>
