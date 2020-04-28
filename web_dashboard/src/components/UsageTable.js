@@ -9,18 +9,21 @@ import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import TablePagination from '@material-ui/core/TablePagination';
 
-import Title from "./Title"
+import Typography from '@material-ui/core/Typography';
 
 import * as moment from "moment"
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
     maxHeight: 440,
   },
-});
+  title: {
+    margin: theme.spacing(0, 2, 2),
+  },
+}));
 
-export default function ItemsTable({ rows, inOverview }) {
+export default function UsageTable({ rows }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -34,48 +37,45 @@ export default function ItemsTable({ rows, inOverview }) {
     setPage(0);
   };
 
+  // const transformDoorStatus = status => {
+  //   let res = String(status)
+  //   if (status === 1) {
+  //     res.replace("1", "Open")
+  //   } else if (status === 0) {
+  //     res.replace("0", "Close")
+  //   }
+  //   return res
+  // }
+
   return (
     <React.Fragment>
-      {inOverview &&
-        <Title>Recent Items</Title>
-      }
+      <Typography variant="h6" className={classes.title}>
+        Door Status Table
+      </Typography>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               <TableCell>Timestamp</TableCell>
-              <TableCell>banana</TableCell>
-              <TableCell>apple</TableCell>
-              <TableCell>sandwich</TableCell>
-              <TableCell>orange</TableCell>
-              <TableCell>broccoli</TableCell>
-              <TableCell>carrot</TableCell>
-              <TableCell>hot_dog</TableCell>
-              <TableCell>pizza</TableCell>
-              <TableCell>donut</TableCell>
-              <TableCell>cake</TableCell>
+              <TableCell>Door Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
               return (
-                <TableRow key={row.id}>
+                <TableRow key={row.timestamp}>
                   <TableCell>
                     {row.timestamp
                       ? moment(row.timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
                       : "-"
                     }
                   </TableCell>
-                  <TableCell>{row.banana}</TableCell>
-                  <TableCell>{row.apple}</TableCell>
-                  <TableCell>{row.sandwich}</TableCell>
-                  <TableCell>{row.orange}</TableCell>
-                  <TableCell>{row.broccoli}</TableCell>
-                  <TableCell>{row.carrot}</TableCell>
-                  <TableCell>{row.hot_dog}</TableCell>
-                  <TableCell>{row.pizza}</TableCell>
-                  <TableCell>{row.donut}</TableCell>
-                  <TableCell>{row.cake}</TableCell>
+                  <TableCell>
+                    {row.door_open
+                      ? "Open"
+                      : "Close"
+                    }
+                  </TableCell>
                 </TableRow>
               );
             })}
