@@ -38,7 +38,7 @@ class Overview extends React.Component {
     // temp chart rows
     temperatureRows: [],
     // for usage overview block
-    doorDuration: 0,
+    doorTimes: 0,
   }
 
   async componentDidMount() {
@@ -83,17 +83,17 @@ class Overview extends React.Component {
       console.error(err, "error")
     }
   
-    // get door duration in past 1 hour
+    // get door open times in past 1 hour
     try {
       const res = await axios.get(
-        `${HTTPconfig.sensor_gateway}get-duration-door-open?from_date=${strFromDate}&to_date=${strToDate}`
+        `${HTTPconfig.sensor_gateway}get-times-door-open?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
       console.log("Overview DidMount axios res.data: ", res.data)
       console.log("Overview DidMount axios full response schema: ", res)
 
       this.setState({
-        doorDuration: res.data,
+        doorTimes: res.data,
       })
     } catch (err) {
       console.error(err, "error")
@@ -125,7 +125,7 @@ class Overview extends React.Component {
         <Grid item xs={12} md={4} lg={3}>
           <Paper className={clsx(classes.paper, classes.fixedHeight)}>
             <UsageOverview
-              doorDuration={this.state.doorDuration}
+              doorTimes={this.state.doorTimes}
             />
           </Paper>
         </Grid>

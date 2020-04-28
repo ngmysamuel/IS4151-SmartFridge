@@ -13,16 +13,16 @@ const useStyles = makeStyles({
   },
 })
 
-export default function UsageOverview({ doorDuration }) {
+export default function UsageOverview({ doorTimes }) {
   const classes = useStyles()
   return (
     <React.Fragment>
       <Title>Recent Usage</Title>
       <Typography component="p" variant="h4">
-        {doorDuration} seconds
+        {doorTimes} times
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        fridge door open in the past one hour
+        fridge accessed in the past one hour
       </Typography>
       <div>
         <Button

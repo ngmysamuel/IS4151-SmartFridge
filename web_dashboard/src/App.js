@@ -77,6 +77,11 @@ class App extends React.Component {
     this.interval = setInterval(this.getCurrDoor, 30000); // Time in milliseconds
   }
 
+  componentWillUnmount() {
+    // clear the interval when unmount
+    clearInterval(this.interval);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     // if form's states have changed
     if (
