@@ -201,8 +201,8 @@ paths:
 
   /get-daily-duration-door-open:
     get:
-      summary: "Gets the number of times the fridge has been open"
-      description: "Returns the number stauses door_open = 1 for the range of time "
+      summary: "The duration the fridge is open per day"
+      description: "Returns an object where the keys are the dates and the value is the length of time the fridge has been open in seconds"
       operationId: "sensor_raspi_door.get_daily_duration_door_open"
       produces:
       - "application/json"
@@ -211,6 +211,13 @@ paths:
           description: "successful operation"
           schema:
             type: object
+            properties:
+                "2020-04-24":
+                  type: number
+                  example: 35.0
+                "2020-04-25":
+                  type: number
+                  example: 50.0
 
   /get-duration-door-open:
     get:
