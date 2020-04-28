@@ -9,7 +9,7 @@ info:
     TEMPERATURE, HUMIDITY and DOOR_STATUS.
     3 files backing up the API:
       sensor_raspi_temperature.py,
-      sensor_raspi_humdity.py,
+      sensor.py (for the website), 
       sensor_raspi_door.py.
     Each method in the file will have the same name as its path. "
   version: "1.0.0"
@@ -242,3 +242,48 @@ paths:
           description: "successful operation"
           schema:
             type: number            
+
+
+
+
+# Gde's code
+  /door:
+    get:
+      operationId: "sensor.door_read"
+      tags:
+        - "Sensor"
+      summary: "The sensor data structure supported by the server application"
+      description: "Read the list of sensor"
+      responses:
+        200:
+          description: "Successful read sensor list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "number"
+                door_open:
+                  type: "number"  
+                timestamp:
+                  type: "string"
+  /temperature:
+    get:
+      operationId: "sensor.temperature_read"
+      tags:
+        - "Sensor"
+      summary: "The sensor data structure supported by the server application"
+      description: "Read the list of sensor"
+      responses:
+        200:
+          description: "Successful read sensor list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "number"
+                temperature:
+                  type: "number"
+                timestamp:
+                  type: "string"            
