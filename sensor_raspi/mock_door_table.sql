@@ -18,3 +18,6 @@ INSERT INTO door (door_open, timestamp) VALUES (1, "2020-04-25 12:01:30");
 INSERT INTO door (door_open, timestamp) VALUES (0, "2020-04-25 12:02:10");
 INSERT INTO door (door_open, timestamp) VALUES (1, "2020-04-26 12:02:30");
 INSERT INTO door (door_open, timestamp) VALUES (0, "2020-04-26 12:02:45");
+
+INSERT INTO door (door_open, timestamp) VALUES (1, "2020-04-28 17:02:30");
+INSERT INTO door (door_open, timestamp) VALUES (0, "2020-04-28 17:02:45");

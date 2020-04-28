@@ -37,6 +37,8 @@ class Overview extends React.Component {
     itemRows: [],
     // temp chart rows
     temperatureRows: [],
+    // for usage overview block
+    doorDuration: 0,
   }
 
   async componentDidMount() {
@@ -49,6 +51,7 @@ class Overview extends React.Component {
     const strFromDate = format(fromDate, 'yyyy-MM-dd HH:mm:ss')
     const strToDate = format(toDate, 'yyyy-MM-dd HH:mm:ss')
 
+    // item table in today range
     try {
       const res = await axios.get(
         `${HTTPconfig.objdet_gateway}get-items-range?from_date=${strFromDate}&to_date=${strToDate}`
@@ -64,6 +67,7 @@ class Overview extends React.Component {
       console.error(err, "error")
     }
 
+    // temperature chart in today range
     try {
       const res = await axios.get(
         `${HTTPconfig.sensor_gateway}get-temperature-range?from_date=${strFromDate}&to_date=${strToDate}`
@@ -74,6 +78,22 @@ class Overview extends React.Component {
 
       this.setState({
         temperatureRows: res.data,
+      })
+    } catch (err) {
+      console.error(err, "error")
+    }
+  
+    // get door duration in today range
+    try {
+      const res = await axios.get(
+        `${HTTPconfig.sensor_gateway}get-duration-door-open?from_date=${strFromDate}&to_date=${strToDate}`
+      )
+      // res.data is the object sent back from the server
+      console.log("axios res.data: ", res.data)
+      console.log("axios full response schema: ", res)
+
+      this.setState({
+        doorDuration: res.data,
       })
     } catch (err) {
       console.error(err, "error")
@@ -104,7 +124,9 @@ class Overview extends React.Component {
         {/* Recent Deposits */}
         <Grid item xs={12} md={4} lg={3}>
           <Paper className={clsx(classes.paper, classes.fixedHeight)}>
-            <UsageOverview />
+            <UsageOverview
+              doorDuration={this.state.doorDuration}
+            />
           </Paper>
         </Grid>
         {/* Recent Orders */}

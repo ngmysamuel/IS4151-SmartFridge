@@ -100,3 +100,10 @@ INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-25 00:12:2
 INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-25 00:12:30");
 INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-25 00:12:40");
 INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-25 00:12:50");
+
+INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-28 17:10:00");
+INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-28 17:12:00");
+INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-28 17:13:00");
+INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-28 17:14:00");
+INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-28 17:15:00");
+INSERT INTO temperature (temperature, timestamp) VALUES (25, "2020-04-28 17:16:00");

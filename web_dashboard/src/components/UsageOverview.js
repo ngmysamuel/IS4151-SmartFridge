@@ -1,12 +1,11 @@
 import React from "react"
-import Link from "@material-ui/core/Link"
+import { Link } from "react-router-dom"
+
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
+import Button from "@material-ui/core/Button"
 import Title from "./Title"
 
-function preventDefault(event) {
-  event.preventDefault()
-}
 
 const useStyles = makeStyles({
   depositContext: {
@@ -14,21 +13,25 @@ const useStyles = makeStyles({
   },
 })
 
-export default function Deposits() {
+export default function UsageOverview({ doorDuration }) {
   const classes = useStyles()
   return (
     <React.Fragment>
       <Title>Recent Usage</Title>
       <Typography component="p" variant="h4">
-        Fridge opened
+        {doorDuration} seconds
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2020
+        fridge door open in the past one hour
       </Typography>
       <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          View energy consumption
-        </Link>
+        <Button
+          color="primary"
+          component={Link}
+          to={`/fridge-usage`}
+        >
+          Go to Usage Page
+        </Button>
       </div>
     </React.Fragment>
   )
