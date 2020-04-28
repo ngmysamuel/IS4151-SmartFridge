@@ -46,8 +46,8 @@ class FridgeSnapshot extends React.Component {
     try {
       const res = await axios.get(`${HTTPconfig.objdet_gateway}get-snapshot`)
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Fridge Snapshot Combo axios res.data: ", res.data)
+      console.log("Fridge Snapshot Combo axios full response schema: ", res)
 
       this.setState({
         oriSnapshotImg: res.data.ori_image,
@@ -59,8 +59,8 @@ class FridgeSnapshot extends React.Component {
     try {
       const res = await axios.get(`${HTTPconfig.objdet_gateway}get-predicted-snapshot`)
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Fridge Snapshot Combo axios res.data: ", res.data)
+      console.log("Fridge Snapshot Combo axios full response schema: ", res)
 
       this.setState({
         predSnapshotImg: res.data.image,

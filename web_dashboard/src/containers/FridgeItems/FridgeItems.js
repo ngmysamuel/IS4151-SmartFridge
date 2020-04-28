@@ -89,8 +89,8 @@ class FridgeItems extends React.Component {
         `${HTTPconfig.objdet_gateway}get-items-range?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Fridge Item handleCommit axios res.data: ", res.data)
+      console.log("Fridge Item handleCommit axios full response schema: ", res)
 
       this.setState({
         itemRows: res.data,

@@ -89,8 +89,8 @@ class FridgeCondition extends React.Component {
         `${HTTPconfig.sensor_gateway}get-temperature-range?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Fridge Condition handle commit axios res.data: ", res.data)
+      console.log("Fridge Condition handle commit axios full response schema: ", res)
 
       this.setState({
         itemRows: res.data,

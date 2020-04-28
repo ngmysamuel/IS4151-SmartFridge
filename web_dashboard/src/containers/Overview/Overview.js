@@ -51,14 +51,14 @@ class Overview extends React.Component {
     const strFromDate = format(fromDate, 'yyyy-MM-dd HH:mm:ss')
     const strToDate = format(toDate, 'yyyy-MM-dd HH:mm:ss')
 
-    // item table in today range
+    // item table in past 1 hour
     try {
       const res = await axios.get(
         `${HTTPconfig.objdet_gateway}get-items-range?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Overview DidMount axios res.data: ", res.data)
+      console.log("Overview DidMount axios full response schema: ", res)
 
       this.setState({
         itemRows: res.data,
@@ -67,14 +67,14 @@ class Overview extends React.Component {
       console.error(err, "error")
     }
 
-    // temperature chart in today range
+    // temperature chart in past 1 hour
     try {
       const res = await axios.get(
         `${HTTPconfig.sensor_gateway}get-temperature-range?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Overview DidMount axios res.data: ", res.data)
+      console.log("Overview DidMount axios full response schema: ", res)
 
       this.setState({
         temperatureRows: res.data,
@@ -83,14 +83,14 @@ class Overview extends React.Component {
       console.error(err, "error")
     }
   
-    // get door duration in today range
+    // get door duration in past 1 hour
     try {
       const res = await axios.get(
         `${HTTPconfig.sensor_gateway}get-duration-door-open?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Overview DidMount axios res.data: ", res.data)
+      console.log("Overview DidMount axios full response schema: ", res)
 
       this.setState({
         doorDuration: res.data,

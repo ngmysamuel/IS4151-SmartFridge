@@ -117,8 +117,8 @@ class FridgeUsage extends React.Component {
         `${HTTPconfig.sensor_gateway}get-door-status-range?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Fridge Usage HandleCommit axios res.data: ", res.data)
+      console.log("Fridge Usage HandleCommit axios full response schema: ", res)
 
       this.setState({
         itemRows: res.data,
@@ -133,8 +133,8 @@ class FridgeUsage extends React.Component {
         `${HTTPconfig.sensor_gateway}get-duration-door-open?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Fridge Usage HandleCommit axios res.data: ", res.data)
+      console.log("Fridge Usage HandleCommit axios full response schema: ", res)
 
       this.setState({
         doorDuration: res.data,
@@ -149,8 +149,8 @@ class FridgeUsage extends React.Component {
         `${HTTPconfig.sensor_gateway}get-times-door-open?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Fridge Usage HandleCommit axios res.data: ", res.data)
+      console.log("Fridge Usage HandleCommit axios full response schema: ", res)
 
       this.setState({
         doorTimes: res.data,
