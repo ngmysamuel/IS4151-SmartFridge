@@ -49,7 +49,7 @@ class Overview extends React.Component {
 
     try {
       const res = await axios.get(
-        `${HTTPconfig.gateway}get-items-range?from_date=${strFromDate}&to_date=${strToDate}`
+        `${HTTPconfig.objdet_gateway}get-items-range?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
       console.log("axios res.data: ", res.data)

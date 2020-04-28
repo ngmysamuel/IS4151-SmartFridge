@@ -44,7 +44,7 @@ class FridgeSnapshot extends React.Component {
 
   get_snapshot_combo = async () => {
     try {
-      const res = await axios.get(`${HTTPconfig.gateway}get-snapshot`)
+      const res = await axios.get(`${HTTPconfig.objdet_gateway}get-snapshot`)
       // res.data is the object sent back from the server
       console.log("axios res.data: ", res.data)
       console.log("axios full response schema: ", res)
@@ -57,7 +57,7 @@ class FridgeSnapshot extends React.Component {
     }
 
     try {
-      const res = await axios.get(`${HTTPconfig.gateway}get-predicted-snapshot`)
+      const res = await axios.get(`${HTTPconfig.objdet_gateway}get-predicted-snapshot`)
       // res.data is the object sent back from the server
       console.log("axios res.data: ", res.data)
       console.log("axios full response schema: ", res)
