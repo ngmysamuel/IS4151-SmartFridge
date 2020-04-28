@@ -5,7 +5,7 @@ import axios from "axios"
 import HTTPconfig from "../../HTTPconfig"
 
 import { withStyles } from "@material-ui/core/styles"
-// import Typography from "@material-ui/core/Typography"
+import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
@@ -86,11 +86,11 @@ class FridgeItems extends React.Component {
 
     try {
       const res = await axios.get(
-        `${HTTPconfig.gateway}get-items-range?from_date=${strFromDate}&to_date=${strToDate}`
+        `${HTTPconfig.objdet_gateway}get-items-range?from_date=${strFromDate}&to_date=${strToDate}`
       )
       // res.data is the object sent back from the server
-      console.log("axios res.data: ", res.data)
-      console.log("axios full response schema: ", res)
+      console.log("Fridge Item handleCommit axios res.data: ", res.data)
+      console.log("Fridge Item handleCommit axios full response schema: ", res)
 
       this.setState({
         itemRows: res.data,
@@ -107,6 +107,9 @@ class FridgeItems extends React.Component {
 
     return (
       <>
+        <Typography variant="h4" gutterBottom>
+          Fridge Items
+        </Typography>
         <Paper className={clsx(classes.paper, classes.fixedHeight)}>
           <ContentBar
             needToList={false}
