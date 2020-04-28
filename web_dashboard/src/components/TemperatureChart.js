@@ -1,40 +1,36 @@
 import React from "react"
 import { useTheme } from "@material-ui/core/styles"
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Label,
   ResponsiveContainer,
 } from "recharts"
+
+import * as moment from "moment"
+
 import Title from "./Title"
 
-// replace with our own data
-function createData(time, amount) {
-  return { time, amount }
+
+const transformRow = (row) => {
+  return {
+    name: moment(row.timestamp).format("h:mm"),
+    temperature: row.temperature,
+  }
 }
 
-const data = [
-  createData("00:00", 12),
-  createData("03:00", 13),
-  createData("06:00", 12),
-  createData("09:00", 13),
-  createData("12:00", 16),
-  createData("15:00", 11),
-  createData("18:00", 15),
-  createData("21:00", 12),
-  createData("24:00", undefined),
-]
-
-export default function Chart() {
+export default function TemperatureChart({ rows }) {
   const theme = useTheme()
+
+  const data = rows.map(row => transformRow(row))
 
   return (
     <React.Fragment>
       <Title>Fridge Condition</Title>
-      <ResponsiveContainer>
-        <LineChart
+      <ResponsiveContainer height={130}>
+        <AreaChart
           data={data}
           margin={{
             top: 16,
@@ -43,7 +39,9 @@ export default function Chart() {
             left: 24,
           }}
         >
-          <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
+          <XAxis dataKey="name">
+            <Label value="Time" offset={0} position="insideBottom" />
+          </XAxis>
           <YAxis stroke={theme.palette.text.secondary}>
             <Label
               angle={270}
@@ -53,13 +51,13 @@ export default function Chart() {
               Temperature (Celsius)
             </Label>
           </YAxis>
-          <Line
+          <Area
             type="monotone"
-            dataKey="amount"
+            dataKey="temperature"
             stroke={theme.palette.primary.main}
-            dot={false}
+            fill={theme.palette.primary.main}
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </React.Fragment>
   )

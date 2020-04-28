@@ -15,7 +15,7 @@ import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
 
 import FridgeSnapshot from "../../containers/FridgeItems/FridgeSnapshot"
-import Chart from "../../components/Chart"
+import TemperatureChart from "../../components/TemperatureChart"
 import UsageOverview from "../../components/UsageOverview"
 import ItemsTable from "../../components/ItemsTable"
 
@@ -34,7 +34,9 @@ const styles = theme => ({
 class Overview extends React.Component {
   state = {
     // item table rows
-    itemRows: []
+    itemRows: [],
+    // temp chart rows
+    temperatureRows: [],
   }
 
   async componentDidMount() {
@@ -61,6 +63,21 @@ class Overview extends React.Component {
     } catch (err) {
       console.error(err, "error")
     }
+
+    try {
+      const res = await axios.get(
+        `${HTTPconfig.sensor_gateway}get-temperature-range?from_date=${strFromDate}&to_date=${strToDate}`
+      )
+      // res.data is the object sent back from the server
+      console.log("axios res.data: ", res.data)
+      console.log("axios full response schema: ", res)
+
+      this.setState({
+        temperatureRows: res.data,
+      })
+    } catch (err) {
+      console.error(err, "error")
+    }
   }
 
   render() {
@@ -72,7 +89,16 @@ class Overview extends React.Component {
         {/* Chart */}
         <Grid item xs={12} md={8} lg={9}>
           <Paper className={clsx(classes.paper, classes.fixedHeight)}>
-            <Chart />
+            <TemperatureChart
+              rows={this.state.temperatureRows}
+            />
+            <Button
+              color="primary"
+              component={Link}
+              to={`/fridge-condition`}
+            >
+              Go to Condition Page
+            </Button>
           </Paper>
         </Grid>
         {/* Recent Deposits */}
@@ -89,7 +115,6 @@ class Overview extends React.Component {
               inOverview={true}
             />
             <Button
-              variant="contained"
               color="primary"
               component={Link}
               to={`/fridge-items`}

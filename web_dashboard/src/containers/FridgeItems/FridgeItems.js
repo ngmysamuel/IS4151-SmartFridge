@@ -5,7 +5,7 @@ import axios from "axios"
 import HTTPconfig from "../../HTTPconfig"
 
 import { withStyles } from "@material-ui/core/styles"
-// import Typography from "@material-ui/core/Typography"
+import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
@@ -107,6 +107,9 @@ class FridgeItems extends React.Component {
 
     return (
       <>
+        <Typography variant="h4" gutterBottom>
+          Fridge Items
+        </Typography>
         <Paper className={clsx(classes.paper, classes.fixedHeight)}>
           <ContentBar
             needToList={false}
