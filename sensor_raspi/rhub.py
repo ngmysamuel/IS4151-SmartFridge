@@ -1,7 +1,7 @@
+from datetime import datetime
 import serial
 import time
 import sqlite3
-
 
 def sendCommand(command):
 		
@@ -17,16 +17,16 @@ def waitResponse():
 	return response
 
 
-def saveTemperature(temperatures):
+def saveTemperature(temperature):
 	
 	c = conn.cursor()
 	
-	sql = "INSERT INTO temperature (temperature, timestamp) VALUES ('" + str(temperatures) + "', datetime('now', 'localtime'));"
+	sql = "INSERT INTO temperature (temperature, timestamp) VALUES ('" + str(temperature) + "', datetime('now', 'localtime'));"
 	c.execute(sql)
 	
 	conn.commit()
 	
-	temperatures = ''
+	temperature = ''
 
 
 def saveDoorStatus(door_open):
@@ -40,17 +40,18 @@ def saveDoorStatus(door_open):
 	
 	door_open = ''
 
-
 try:
 
-	print("Listening on /dev/ttyACM0... Press CTRL+C to exit")	
+	print("Listening on /dev/ttyACM0.. Press CTRL+C to exit")	
 	ser = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1)
 	
 	conn = sqlite3.connect('sensor_data')
 	
 	# Handshaking
 	sendCommand('handshake')
-	
+	previousTime = datetime.now()
+	timeNow = previousTime
+
 	strMicrobitDevices = ''
 	
 	while strMicrobitDevices == None or len(strMicrobitDevices) <= 0:
@@ -69,42 +70,44 @@ try:
 			print('Connected to micro:bit device {}...'.format(sensorDevices))
 			
 			while True:
-								
-				time.sleep(5)
-				print('Sending command to sensor devices...')
-				
-				commandToTx = 'sensor=temp'				
-				sendCommand('cmd:' + commandToTx)
-				print('Finished sending command to sensor devices...')
-				
-				if commandToTx.startswith('sensor='):
-					
-					strSensorValues = ''
 
-					while strSensorValues == None or len(strSensorValues) <= 0:
-						
-						strSensorValues = waitResponse()
-						time.sleep(0.1)
-						
-					if strSensorValues.startswith('door='):
-						
-						listDoorValues = strSensorValues.split('=')	
-						strDoorValues = listDoorValues[1]
-						print(strDoorValues)
-						saveDoorStatus(strDoorValues)
-					
-					elif strSensorValues.startswith('temp='):
+				event = ''
+				
+				while event == None or len(event) <= 0:
+					event = waitResponse()
 
-						listSensorValues = strSensorValues.split('=')
-						strTempValues = listSensorValues[1]
-						print(strTempValues)
-						saveTemperature(strTempValues)
-	
+					timeNow = datetime.now()
+					difference = int((timeNow - previousTime).total_seconds())
+					print("Time Difference: " + str(difference))
+
+					if (difference > 5):
+						commandToTx = 'sensor=temp'				
+						sendCommand('cmd:' + commandToTx)
+						tempResponse = ''
+						time.sleep(0.5)
+						tempResponse = waitResponse()
+						if tempResponse == None or len(tempResponse) <= 0:
+							continue
+
+						print(tempResponse)
+						if (tempResponse.startswith('temp=')):
+							fridgeTemp = tempResponse.split('=')
+							print("Fridge Temp: " + fridgeTemp[1])
+							saveTemperature(fridgeTemp[1])
+							previousTime = timeNow
+				
+				print(event)
+				if (event.startswith('door=')):
+					door_open = event.split('=')
+					print("Door Status: " + door_open[1])
+					saveDoorStatus(door_open[1])
+
+
 except KeyboardInterrupt:
 		
 	print("Program terminated!")
 
-except Error as err:
+except Exception as err:
 	
 	print('********** ERROR: {}'.format(err))
 
