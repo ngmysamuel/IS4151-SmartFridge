@@ -16,7 +16,7 @@ serial.onDataReceived(serial.delimiters(Delimiters.NewLine), function () {
 })
 
 function randomWait() {
-    randomWaitPeriod = Math.randomRange(100, 9900)
+    randomWaitPeriod = Math.randomRange(100, 500)
     basic.pause(randomWaitPeriod)
 }
 
