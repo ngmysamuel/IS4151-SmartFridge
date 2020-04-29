@@ -18,6 +18,8 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
 import AcUnitIcon from "@material-ui/icons/AcUnit"
 // fridge usage icon
 import TimelineIcon from "@material-ui/icons/Timeline"
+// recipe API icon
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 
 const drawerWidth = 240
 
@@ -64,6 +66,13 @@ const mainListItems = (
         <TimelineIcon />
       </ListItemIcon>
       <ListItemText primary="Fridge Usage" />
+    </ListItem>
+
+    <ListItem button component={Link} to="/recipe-recom">
+      <ListItemIcon>
+        <FastfoodIcon />
+      </ListItemIcon>
+      <ListItemText primary="Recipes" />
     </ListItem>
   </List>
 )

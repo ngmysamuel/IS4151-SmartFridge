@@ -22,6 +22,7 @@ import Overview from "./containers/Overview"
 import FridgeItems from "./containers/FridgeItems"
 import FridgeCondition from "./containers/FridgeCondition"
 import FridgeUsage from "./containers/FridgeUsage"
+import RecipeRecom from "./containers/RecipeRecom"
 
 const NoMatch = ({ location }) => (
   <h3>
@@ -137,6 +138,7 @@ class App extends React.Component {
                     component={FridgeCondition}
                   />
                   <Route exact path="/fridge-usage" component={FridgeUsage} />
+                  <Route exact path="/recipe-recom" component={RecipeRecom} />
                   <Route component={NoMatch} />
                 </Switch>
               </Grid>
